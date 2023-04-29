@@ -1,0 +1,9 @@
+{
+  "Db": {
+        "Host": "localhost",
+        "User": "root",
+        "Password": "12345678",
+		"Database": "historial_pacientes"
+		},
+	"PathBase": "C:/Users/jserrano/Documents/Workspace/Personal_Historial_Pecientes"		
+}
