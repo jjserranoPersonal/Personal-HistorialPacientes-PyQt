@@ -1,14 +1,16 @@
 drop database historial_pacientes; #Eliminar base de datos 
 drop table historial; #Eliminar Tabla
+truncate paciente;
+truncate historial;
+#---------------------
 use historial_pacientes;
-
+SELECT * FROM usuarios;
 SELECT * FROM paciente;
 SELECT * FROM historial;
-SELECT * FROM usuarios;
-
 insert into usuarios (usuario,password) values 
 ('jserrano','123456');
-
+#----------------------------------------------------------------------------------
+#Creacion de base de  datos historial_pacientes
 #----------------------------------------------------------------------------------
 create database historial_pacientes;
 use historial_pacientes;
@@ -16,6 +18,7 @@ use historial_pacientes;
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS pacientes;
 DROP TABLE IF EXISTS historialMedico;
+DROP TABLE IF EXISTS usuarios;
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE IF NOT EXISTS paciente (id INT PRIMARY KEY AUTO_INCREMENT,

@@ -335,10 +335,10 @@ class Principal(QMainWindow):
     def p_calcuar_edad(self,fecha_nacimiento):
         edad = relativedelta(datetime.now(), fecha_nacimiento)
         self.label_edad.setText(f"{edad.years} años")
-        if edad.years == 0:
+        if edad.years == 0 or edad.years == None:
             self.label_edad.setText(f"{edad.months} meses")
-        if edad.months == 0:
-            self.label_edad.setText(f"{edad.days} días")    
+            if edad.months == 0 or edad.months == None:
+                self.label_edad.setText(f"{edad.days} días")    
 
     def p_obtener_foto(self,identificacion):
         try:
