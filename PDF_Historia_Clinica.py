@@ -183,12 +183,15 @@ class PdfHistoriaClinica:
         c.drawText(text)
         
     def calcuar_edad(self,fecha_nacimiento):
-        calculo_edad = relativedelta(datetime.now(), fecha_nacimiento)
+        if isinstance(fecha_nacimiento, str):
+            calculo_edad = relativedelta(datetime.now(), datetime.strptime(fecha_nacimiento, '%Y-%m-%d'))          
+        else:
+            calculo_edad = relativedelta(datetime.now(), fecha_nacimiento)
         edad = f"{calculo_edad.years} años"
-        if calculo_edad.years == 0:
+        if calculo_edad.years == 0 or calculo_edad.years==None:
             edad = f"{calculo_edad.months} meses"
-        if calculo_edad.months == 0:
-            edad = f"{calculo_edad.days} días"    
+            if calculo_edad.months == 0 or calculo_edad.months == None:
+                edad = f"{calculo_edad.days} días"    
         return edad    
 
     def truncar(self,cantidad,cadena):	

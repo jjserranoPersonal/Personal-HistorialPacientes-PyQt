@@ -2,7 +2,7 @@ import sys
 import os
 from PyQt6.QtWidgets  import QApplication, QWidget, QMainWindow, QMessageBox
 from PyQt6 import uic
-from db import get_db
+from database.db import get_db
 from validaciones import *
 from MainWindow_Principal import Principal
 
@@ -21,9 +21,9 @@ class Login(QMainWindow):
             password = self.text_password.text()           
             #Validaciones y acciones
             if validar_usuario(usuario) and validar_password(password):
-                sql = '''select * from usuarios where usuario=%s'''
-                values = (usuario,)
-                self.cursor.execute (sql,values) 
+                sql = f"select * from usuarios where usuario='{usuario}'"
+                #values = (usuario,)
+                self.cursor.execute (sql) 
                 usuarioExiste = self.cursor.fetchone() 
                 if usuarioExiste is None:
                         self.p_alerta("Error","Usuario ó Contraseña Invalidos!!!") 

@@ -1,9 +1,11 @@
 {
-  "Db": {
+	"Db": {
         "Host": "localhost",
         "User": "root",
         "Password": "12345678",
 		"Database": "historial_pacientes"
 		},
-	"PathBase": "C:/Users/jserrano/Documents/Workspace/Personal-HistorialPacientes-WhiniffertGamboa"		
+	"PathBase": "C:/Users/jserrano/Documents/Workspace/Personal-HistorialPacientes-WhiniffertGamboa",	
+	"DatabaseSQLite":"Recursos/database/historial_pacientes.sqlite3",
+	"tipoDB":"sqlite"	
 }

@@ -7,8 +7,8 @@ from PyQt6 import uic
 from datetime import datetime
 from tkinter import filedialog
 import shutil
-from Pacientes import Pacientes
-from Eventos import Eventos
+from database.Pacientes import Pacientes
+from database.Eventos import Eventos
 from dateutil.relativedelta import relativedelta
 from validaciones import *
 from PDF_Historia_Clinica import PdfHistoriaClinica
@@ -63,30 +63,30 @@ class Principal(QMainWindow):
             self.p_alerta("Excepción",str(e))
     
     def p_crear_paciente(self):
-        #try:
-        pacientes = Pacientes()           
-        datosPaciente = self.p_obtener_datos_front()               
-        #Validaciones y acciones
-        if validar_identificacion(datosPaciente['identificacion']) and validar_nombres(datosPaciente['nombres']) and validar_apellidos(datosPaciente['apellidos']):
-            paciente = pacientes.consultar_paciente(datosPaciente['identificacion'])
-            if paciente is None: 
-                pacientes.crear_paciente(datosPaciente)
-                self.p_alerta("Exito","Paciente creado de manera exitosa!!!") 
-                self.p_calcuar_edad(datetime.strptime(datosPaciente['fechaNacimiento'], '%Y-%m-%d'))                 
+        try:
+            pacientes = Pacientes()           
+            datosPaciente = self.p_obtener_datos_front()               
+            #Validaciones y acciones
+            if validar_identificacion(datosPaciente['identificacion']) and validar_nombres(datosPaciente['nombres']) and validar_apellidos(datosPaciente['apellidos']):
+                paciente = pacientes.consultar_paciente(datosPaciente['identificacion'])
+                if paciente is None: 
+                    pacientes.crear_paciente(datosPaciente)
+                    self.p_alerta("Exito","Paciente creado de manera exitosa!!!") 
+                    self.p_calcuar_edad(datetime.strptime(datosPaciente['fechaNacimiento'], '%Y-%m-%d'))                 
+                else:
+                    self.p_alerta("Info","Paciente ya existe!!!")
+                    self.p_calcuar_edad(paciente['fechaNacimiento']) 
+                    self.p_asignar_datos_front(paciente)
+
+                self.btnActualizar.setEnabled(True)
+                self.text_identificacion_2.setText(datosPaciente['identificacion']) 
+                self.text_identificacion_3.setText(datosPaciente['identificacion'])                      
+                self.p_obtener_foto(datosPaciente['identificacion']) 
             else:
-                self.p_alerta("Info","Paciente ya existe!!!")
-                self.p_calcuar_edad(paciente['fechaNacimiento']) 
-                self.p_asignar_datos_front(paciente)
-
-            self.btnActualizar.setEnabled(True)
-            self.text_identificacion_2.setText(datosPaciente['identificacion']) 
-            self.text_identificacion_3.setText(datosPaciente['identificacion'])                      
-            self.p_obtener_foto(datosPaciente['identificacion']) 
-        else:
-            self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
-
-        #except Exception as e:
-        #    self.p_alerta("Excepción",str(e))
+                self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
+    
+        except Exception as e:
+            self.p_alerta("Excepción",str(e))
             
     def p_actulizar_paciente(self):
         try:
@@ -182,29 +182,29 @@ class Principal(QMainWindow):
             self.p_alerta("Excepción",str(e))
 
     def p_descargar_Historial(self):
-        try:
-            pacientes = Pacientes()  
-            eventos = Eventos() 
-            identificacion = self.text_identificacion_3.text()
-            self.text_InformacionHistorial.setText('')
+        #try:
+        pacientes = Pacientes()  
+        eventos = Eventos() 
+        identificacion = self.text_identificacion_3.text()
+        self.text_InformacionHistorial.setText('')
 
-            #Validaciones y acciones
-            if validar_identificacion(identificacion):
-                paciente = pacientes.consultar_paciente(identificacion)
-                if paciente is None: 
-                    self.p_alerta("Info","Paciente no existe!!!")
-                else:
-                    historial = eventos.consultar_historial(paciente['id'])
-                    if historial is None or historial == []:
-                        self.p_alerta("Info","Paciente no posee historial de eventos realizados!!!")
-                    else:   
-                        PdfHistoriaClinica(paciente,historial)    
-                        self.p_alerta("Exito","Historial de eventos generado de manera exitosa!!!")                       
+        #Validaciones y acciones
+        if validar_identificacion(identificacion):
+            paciente = pacientes.consultar_paciente(identificacion)
+            if paciente is None: 
+                self.p_alerta("Info","Paciente no existe!!!")
             else:
-                self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
+                historial = eventos.consultar_historial(paciente['id'])
+                if historial is None or historial == []:
+                    self.p_alerta("Info","Paciente no posee historial de eventos realizados!!!")
+                else:   
+                    PdfHistoriaClinica(paciente,historial)    
+                    self.p_alerta("Exito","Historial de eventos generado de manera exitosa!!!")                       
+        else:
+            self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
 
-        except Exception as e:
-           self.p_alerta("Excepción",str(e))                     
+        #except Exception as e:
+        #   self.p_alerta("Excepción",str(e))                     
 
     def p_consultar_soportes(self):
         try:
@@ -257,7 +257,6 @@ class Principal(QMainWindow):
         except Exception as e:
            self.p_alerta("Excepción",str(e))                
     
-
     def p_obtener_datos_front(self):
         datosPaciente= {'identificacion': self.text_identificacion.text(),
                         'nombres': self.text_nombres.text(),
@@ -298,7 +297,10 @@ class Principal(QMainWindow):
         self.text_direccion.setText(paciente['direccion'])
         self.text_email.setText(paciente['correo'])
         self.text_telefono.setText(paciente['telefono'])
-        self.date_FechaNacimiento.setDate(paciente['fechaNacimiento'])
+        if isinstance(paciente['fechaNacimiento'], str):
+            self.date_FechaNacimiento.setDate(datetime.strptime(paciente['fechaNacimiento'], '%Y-%m-%d'))
+        else:
+            self.date_FechaNacimiento.setDate(paciente['fechaNacimiento'])    
         self.text_peso.setText(paciente['peso'])
         self.text_talla.setText(paciente['talla'])
         self.text_habitos.setText(paciente['habitosToxicos'])
@@ -333,7 +335,10 @@ class Principal(QMainWindow):
         #    print("OK!")
 
     def p_calcuar_edad(self,fecha_nacimiento):
-        edad = relativedelta(datetime.now(), fecha_nacimiento)
+        if isinstance(fecha_nacimiento, str):
+            edad = relativedelta(datetime.now(), datetime.strptime(fecha_nacimiento, '%Y-%m-%d'))          
+        else:
+            edad = relativedelta(datetime.now(), fecha_nacimiento)
         self.label_edad.setText(f"{edad.years} años")
         if edad.years == 0 or edad.years == None:
             self.label_edad.setText(f"{edad.months} meses")
