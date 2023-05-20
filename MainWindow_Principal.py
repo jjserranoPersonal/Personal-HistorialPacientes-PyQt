@@ -182,29 +182,29 @@ class Principal(QMainWindow):
             self.p_alerta("Excepción",str(e))
 
     def p_descargar_Historial(self):
-        #try:
-        pacientes = Pacientes()  
-        eventos = Eventos() 
-        identificacion = self.text_identificacion_3.text()
-        self.text_InformacionHistorial.setText('')
+        try:
+            pacientes = Pacientes()  
+            eventos = Eventos() 
+            identificacion = self.text_identificacion_3.text()
+            self.text_InformacionHistorial.setText('')
 
-        #Validaciones y acciones
-        if validar_identificacion(identificacion):
-            paciente = pacientes.consultar_paciente(identificacion)
-            if paciente is None: 
-                self.p_alerta("Info","Paciente no existe!!!")
+            #Validaciones y acciones
+            if validar_identificacion(identificacion):
+                paciente = pacientes.consultar_paciente(identificacion)
+                if paciente is None: 
+                    self.p_alerta("Info","Paciente no existe!!!")
+                else:
+                    historial = eventos.consultar_historial(paciente['id'])
+                    if historial is None or historial == []:
+                        self.p_alerta("Info","Paciente no posee historial de eventos realizados!!!")
+                    else:   
+                        PdfHistoriaClinica(paciente,historial)    
+                        self.p_alerta("Exito","Historial de eventos generado de manera exitosa!!!")                       
             else:
-                historial = eventos.consultar_historial(paciente['id'])
-                if historial is None or historial == []:
-                    self.p_alerta("Info","Paciente no posee historial de eventos realizados!!!")
-                else:   
-                    PdfHistoriaClinica(paciente,historial)    
-                    self.p_alerta("Exito","Historial de eventos generado de manera exitosa!!!")                       
-        else:
-            self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
+                self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
 
-        #except Exception as e:
-        #   self.p_alerta("Excepción",str(e))                     
+        except Exception as e:
+           self.p_alerta("Excepción",str(e))                     
 
     def p_consultar_soportes(self):
         try:
