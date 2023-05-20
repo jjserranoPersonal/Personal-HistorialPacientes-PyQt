@@ -1,11 +1,10 @@
 import sys
 import os
-from PyQt6.QtWidgets  import QApplication, QWidget, QMainWindow, QMessageBox
-from PyQt6.QtGui import QIcon, QPixmap
-from PyQt6.QtCore  import Qt
-from PyQt6 import uic
+from PyQt5.QtWidgets  import QApplication, QWidget, QMainWindow, QMessageBox, QFileDialog
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore  import Qt
+from PyQt5 import uic
 from datetime import datetime
-from tkinter import filedialog
 import shutil
 from database.Pacientes import Pacientes
 from database.Eventos import Eventos
@@ -220,7 +219,16 @@ class Principal(QMainWindow):
                     path_base = self.datosAppConfig['PathBase']
                     path_Soportes = f"Recursos/Soportes/Historias/{str(paciente['identificacion'])}"
                     os.makedirs(path_Soportes,exist_ok=True)
-                    file_path = filedialog.askopenfilename(initialdir=f"{path_base}/{path_Soportes}/")   
+                    
+                    file_path = ''
+                    file_dialog = QFileDialog()
+                    file_dialog.setFileMode(QFileDialog.ExistingFile)
+                    file_dialog.setDirectory(f"{path_base}/{path_Soportes}/") 
+                    file_dialog.exec_()
+                    file_paths = file_dialog.selectedFiles()
+                    if len(file_paths)>0:
+                        file_path = file_paths[0]
+
                     if file_path == '':
                         pass
                     else:             
@@ -245,7 +253,16 @@ class Principal(QMainWindow):
                     path_base = self.datosAppConfig['PathBase']
                     path_Soportes = f"Recursos/Soportes/Historias/{str(paciente['identificacion'])}"
                     os.makedirs(path_Soportes,exist_ok=True)
-                    file_path = filedialog.askopenfilename(initialdir=f"{path_base}")   
+
+                    file_path = '' 
+                    file_dialog = QFileDialog()
+                    file_dialog.setFileMode(QFileDialog.ExistingFile)
+                    file_dialog.setDirectory(f"{path_base}") 
+                    file_dialog.exec_()
+                    file_paths = file_dialog.selectedFiles()
+                    if len(file_paths)>0:
+                        file_path = file_paths[0]
+
                     if file_path == '':
                         pass
                     else:             
@@ -368,7 +385,16 @@ class Principal(QMainWindow):
                     path_base = self.datosAppConfig['PathBase']
                     os.makedirs(f"Recursos/Soportes/Foto/",exist_ok=True)
                     rutaFoto = f"Recursos/Soportes/Foto/{identificacion}"
-                    file_path = filedialog.askopenfilename(initialdir=f"{path_base}")
+
+                    file_path = '' 
+                    file_dialog = QFileDialog()
+                    file_dialog.setFileMode(QFileDialog.ExistingFile)
+                    file_dialog.setDirectory(f"{path_base}") 
+                    file_dialog.exec_()
+                    file_paths = file_dialog.selectedFiles()
+                    if len(file_paths)>0:
+                        file_path = file_paths[0]
+
                     if file_path == '':
                         pass
                     else:

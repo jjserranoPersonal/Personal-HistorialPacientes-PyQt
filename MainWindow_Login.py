@@ -1,7 +1,7 @@
 import sys
 import os
-from PyQt6.QtWidgets  import QApplication, QWidget, QMainWindow, QMessageBox
-from PyQt6 import uic
+from PyQt5.QtWidgets  import QApplication, QWidget, QMainWindow, QMessageBox
+from PyQt5 import uic
 from database.db import get_db
 from validaciones import *
 from MainWindow_Principal import Principal
