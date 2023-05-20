@@ -3,3 +3,5 @@ Windows:
 Para instalar: pip install pyinstaller ó pip3 install pyinstaller
 comando: 
 pyinstaller --onefile --noconsole --icon=Recursos/img/logo_ico.ico --name "Historial Clinico" MainWindow_Login.py
+
+pyinstaller --onefile --platform=win32 --noconsole --icon=Recursos/img/logo_ico.ico --name "Historial Clinico" MainWindow_Login.py
