@@ -44,6 +44,9 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -99,7 +102,7 @@
      <rect>
       <x>10</x>
       <y>110</y>
-      <width>881</width>
+      <width>901</width>
       <height>471</height>
      </rect>
     </property>
@@ -119,7 +122,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <property name="iconSize">
      <size>
@@ -416,7 +419,7 @@ font: 75 9pt &quot;MS Shell Dlg 2&quot;;</string>
        <string/>
       </property>
       <property name="displayFormat">
-       <string>yyyy-MM-dd</string>
+       <string>dd-MM-yyyy</string>
       </property>
       <property name="timeSpec">
        <enum>Qt::LocalTime</enum>
@@ -1773,69 +1776,84 @@ font: 75 9pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
      </widget>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="btnEditar">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>620</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
-font: 75 9pt &quot;MS Shell Dlg 2&quot; ;</string>
-    </property>
-    <property name="text">
-     <string>Editar</string>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../../.designer/backup/Recursos/edit.jpeg</normaloff>../../../.designer/backup/Recursos/edit.jpeg</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>18</width>
-      <height>18</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnConsultar">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>620</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>MS Shell Dlg 2</family>
-      <pointsize>9</pointsize>
-      <weight>9</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Listado</string>
+     </attribute>
+     <widget class="QTextEdit" name="text_ListadoPacientes">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>861</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="locale">
+       <locale language="Spanish" country="Colombia"/>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnConsultarListadoPacientes">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>20</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
 font: 75 9pt &quot;MS Shell Dlg 2&quot;;</string>
-    </property>
-    <property name="text">
-     <string>Consultar</string>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../../.designer/backup/Recursos/descarga-600x448.png</normaloff>../../../.designer/backup/Recursos/descarga-600x448.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>21</width>
-      <height>21</height>
-     </size>
-    </property>
+      </property>
+      <property name="text">
+       <string>Consultar Listado</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../img/busqueda.svg</normaloff>../img/busqueda.svg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>21</width>
+        <height>21</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="text_identificacion_4">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>231</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Filtro por Nombres</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -1939,16 +1957,6 @@ font: 75 9pt &quot;MS Shell Dlg 2&quot;;</string>
      <string/>
     </property>
    </widget>
-   <zorder>label</zorder>
-   <zorder>label_44</zorder>
-   <zorder>btnEditar</zorder>
-   <zorder>btnConsultar</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>foto</zorder>
-   <zorder>label_edad</zorder>
-   <zorder>label_historia</zorder>
   </widget>
  </widget>
  <resources/>

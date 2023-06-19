@@ -47,3 +47,9 @@ class Pacientes:
                     where identificacion={id}'''
         self.cursor.execute (sql) 
         self.db.commit() 
+
+    def consultar_listado_pacientes(self,nombre):
+        sql = f"SELECT * FROM paciente WHERE nombres like '%{nombre}%' ORDER by nombres"
+        self.cursor.execute (sql) 
+        pacientes = self.cursor.fetchall()  
+        return pacientes

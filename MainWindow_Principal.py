@@ -33,10 +33,89 @@ class Principal(QMainWindow):
         self.btnDescargarHistorial.clicked.connect(self.p_descargar_Historial) 
         self.btnSubirSoporte.clicked.connect(self.p_subir_soportes) 
         self.btnConsultarSoportes.clicked.connect(self.p_consultar_soportes) 
+        self.btnConsultarListadoPacientes.clicked.connect(self.p_consultar_listado_pacientes) 
 
         #Se obtienen variables generales del appConfig
         with open("Recursos/Config/AppConfig.json", encoding="utf-8") as archivo:
             self.datosAppConfig = json.load(archivo)
+
+    def p_consultar_listado_pacientes(self):
+        try:
+            pacientes = Pacientes() 
+            nombre = self.text_identificacion_4.text()
+            self.text_ListadoPacientes.setText('')
+
+            pacientes = pacientes.consultar_listado_pacientes(nombre)
+
+            if pacientes is None or pacientes == []:
+                self.p_alerta("Info","No hay pacientes registrados!!!")
+            else:    
+                salida = "<html><head><style>"
+                salida += "table {"
+                salida += "    border-collapse: collapse;"
+                salida += "    width: 100%;"
+                salida += "}"
+                salida += "th, td {"
+                salida += "    text-align: left;"
+                salida += "    padding: 8px;"
+                salida += "}"
+                salida += "th {"
+                salida += "    background-color: #f2f2f2;"
+                salida += "}"
+                salida += "tr:nth-child(even) {"
+                salida += "    background-color: #f9f9f9;"
+                salida += "}"
+                salida += "</style></head><body>"
+                salida += "<table>"
+
+                # Encabezados de columna
+                salida += "<tr>"
+                salida += "<th>Id</th>"
+                salida += "<th>Identificación</th>"
+                salida += "<th>Nombres</th>"
+                salida += "<th>Apellidos</th>"
+                salida += "<th>Fecha de Creación</th>"
+                salida += "<th>Dirección</th>"
+                salida += "</tr>"
+
+                for paciente in pacientes:
+                    id = f"{paciente['id']}"
+                    identificacion = f"{paciente['identificacion']}"
+                    nombres = f"{paciente['nombres']}"
+                    apellidos = f"{paciente['apellidos']}"
+                    fechaCreacion = f"{paciente['created_at']}"
+                    direccion = f"{paciente['direccion']}"
+
+                    # Agregar una fila a la tabla
+                    salida += "<tr>"
+                    salida += f"<td>{id}</td>"
+                    salida += f"<td>{identificacion}</td>"
+                    salida += f"<td>{nombres}</td>"
+                    salida += f"<td>{apellidos}</td>"
+                    salida += f"<td>{fechaCreacion}</td>"
+                    salida += f"<td>{direccion}</td>"
+                    salida += "</tr>"
+
+                salida += "</table></body></html>"  # Cerrar la tabla HTML
+
+                # Establecer estilos para el QTextEdit
+                estilos = """
+                    QTextEdit {
+                        font-family: Arial, sans-serif;
+                        font-size: 12px;
+                        border: 1px solid #ccc;
+                        padding: 10px;
+                        background-color: #f9f9f9;
+                        width: 100%;
+                        height: 100%;
+                    }
+                """
+
+                self.text_ListadoPacientes.setStyleSheet(estilos)
+                self.text_ListadoPacientes.setHtml(salida)
+
+        except Exception as e:
+            self.p_alerta("Excepción",str(e))
  
     def p_consultar_paciente(self):
         try:
@@ -158,7 +237,8 @@ class Principal(QMainWindow):
                     if historial is None or historial == []:
                         self.p_alerta("Info","Paciente no posee historial de eventos realizados!!!")
                     else:    
-                        salidaEvento = ''
+                        salidaEvento = "<html><body style='font-family: Arial, sans-serif;'>"
+
                         for historia in historial:
                             created_at_evento = f"<b>Fecha del evento:</b> {historia['created_at']}"
                             estado = f"<b>Estado:</b> {historia['estado']}"
@@ -171,9 +251,26 @@ class Principal(QMainWindow):
                             freRespiratoria = f"<b>Frecuencia Respiratoria:</b> {historia['freRespiratoria']}"
                             oxigenacion = f"<b>Oxigenación:</b> {historia['oxigenacion']}"
                             motivoConsulta = f"<b>Motivo de Consulta:</b> {historia['motivoConsulta']}"
-                            separadorEvento = '<b>----------------------------------------------------------------------------------------------------------------------------------------------------------------</b>'
-                            salidaEvento += '<html>'+created_at_evento+'<br>'+estado+'<br>'+hea+'<br>'+impDiagnostica+'<br>'+conductaSeguir+'<br>'+temperatura+'<br>'+tensionArterial+'<br>'+freCardiaca+'<br>'+freRespiratoria+'<br>'+oxigenacion+'<br>'+motivoConsulta+'<br>'+separadorEvento+'<br>'+'</html>'
-                        self.text_InformacionHistorial.setText(salidaEvento)                             
+                            separadorEvento = '<hr style="border: 0.5px solid #999; margin: 10px 0;">'
+
+                            # Agregar los datos de cada evento
+                            salidaEvento += f"<p>{created_at_evento}<br>{estado}<br>{hea}<br>{impDiagnostica}<br>{conductaSeguir}<br>{temperatura}<br>{tensionArterial}<br>{freCardiaca}<br>{freRespiratoria}<br>{oxigenacion}<br>{motivoConsulta}<br>{separadorEvento}</p>"
+
+                        salidaEvento += "</body></html>"
+
+                        # Establecer estilos para el QTextEdit
+                        estilos = """
+                            QTextEdit {
+                                font-family: Arial, sans-serif;
+                                font-size: 12px;
+                                border: 1px solid #999;
+                                padding: 10px;
+                                background-color: #f9f9f9;
+                            }
+                        """
+
+                        self.text_InformacionHistorial.setStyleSheet(estilos)
+                        self.text_InformacionHistorial.setHtml(salidaEvento)                    
             else:
                 self.p_alerta("Error","Datos no superaron las validaciones mínimas!!!")
 
@@ -303,8 +400,11 @@ class Principal(QMainWindow):
         elif self.radiobutton_transfusiones_2.isChecked():
             datosPaciente['transfusiones'] = 'NO'
         else:
-            datosPaciente['transfusiones'] = 'NO'     
+            datosPaciente['transfusiones'] = 'NO'  
 
+        fechaNac = datetime.strptime(datosPaciente['fechaNacimiento'], '%d-%m-%Y')
+        datosPaciente['fechaNacimiento'] = str(fechaNac.strftime('%Y-%m-%d'))
+        
         return datosPaciente
     
     def p_asignar_datos_front(self, paciente):
