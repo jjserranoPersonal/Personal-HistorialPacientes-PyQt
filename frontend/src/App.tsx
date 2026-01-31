@@ -4,6 +4,8 @@ import { useAuthStore } from '@/stores/authStore';
 import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 import PacientesPage from '@/pages/PacientesPage';
+import PacienteDetallePage from '@/pages/PacienteDetallePage';
+import EventosPage from '@/pages/EventosPage';
 import Layout from '@/components/Layout';
 
 const queryClient = new QueryClient({
@@ -54,6 +56,8 @@ function App() {
           >
             <Route index element={<DashboardPage />} />
             <Route path="pacientes" element={<PacientesPage />} />
+            <Route path="pacientes/:id" element={<PacienteDetallePage />} />
+            <Route path="eventos" element={<EventosPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

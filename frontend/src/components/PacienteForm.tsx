@@ -9,9 +9,9 @@ const pacienteSchema = z.object({
   nombres: z.string().min(1, 'Los nombres son requeridos'),
   apellidos: z.string().min(1, 'Los apellidos son requeridos'),
   fecha_nacimiento: z.string().min(1, 'La fecha de nacimiento es requerida'),
-  genero: z.enum(['M', 'F', 'Otro'], { required_error: 'El género es requerido' }),
+  sexo: z.enum(['M', 'F', 'Otro'], { required_error: 'El género es requerido' }),
   telefono: z.string().optional(),
-  email: z.string().email('Email inválido').optional().or(z.literal('')),
+  correo: z.string().email('Email inválido').optional().or(z.literal('')),
   direccion: z.string().optional(),
   contacto_emergencia: z.string().optional(),
   telefono_emergencia: z.string().optional(),
@@ -35,7 +35,7 @@ export default function PacienteForm({ onSubmit, onCancel, initialData, isEdit =
     formState: { errors },
   } = useForm<PacienteFormData>({
     resolver: zodResolver(pacienteSchema),
-    defaultValues: initialData,
+    defaultValues: initialData as PacienteFormData,
   });
 
   const onFormSubmit = async (data: PacienteFormData) => {
@@ -66,11 +66,11 @@ export default function PacienteForm({ onSubmit, onCancel, initialData, isEdit =
         </div>
 
         <div>
-          <label htmlFor="genero" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="sexo" className="block text-sm font-medium text-gray-700">
             Género *
           </label>
           <select
-            {...register('genero')}
+            {...register('sexo')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
           >
             <option value="">Seleccionar...</option>
@@ -78,8 +78,8 @@ export default function PacienteForm({ onSubmit, onCancel, initialData, isEdit =
             <option value="F">Femenino</option>
             <option value="Otro">Otro</option>
           </select>
-          {errors.genero && (
-            <p className="mt-1 text-sm text-red-600">{errors.genero.message}</p>
+          {errors.sexo && (
+            <p className="mt-1 text-sm text-red-600">{errors.sexo.message}</p>
           )}
         </div>
 
@@ -143,17 +143,17 @@ export default function PacienteForm({ onSubmit, onCancel, initialData, isEdit =
         </div>
 
         <div className="md:col-span-2">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="correo" className="block text-sm font-medium text-gray-700">
             Email
           </label>
           <input
-            {...register('email')}
+            {...register('correo')}
             type="email"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
             placeholder="Ej: paciente@email.com"
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          {errors.correo && (
+            <p className="mt-1 text-sm text-red-600">{errors.correo.message}</p>
           )}
         </div>
 

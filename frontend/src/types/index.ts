@@ -52,6 +52,8 @@ export interface PacienteCreate {
   app?: string;
   apf?: string;
   nombre_acompanante?: string;
+  contacto_emergencia?: string;
+  telefono_emergencia?: string;
 }
 
 export interface Evento {

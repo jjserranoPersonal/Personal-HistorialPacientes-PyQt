@@ -1,6 +1,6 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
-import { LogOut, Users, Home } from 'lucide-react';
+import { LogOut, Users, Home, FileText } from 'lucide-react';
 
 export default function Layout() {
   const { user, logout } = useAuthStore();
@@ -34,6 +34,13 @@ export default function Layout() {
                 >
                   <Users className="w-4 h-4 mr-2" />
                   Pacientes
+                </Link>
+                <Link
+                  to="/eventos"
+                  className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >
+                  <FileText className="w-4 h-4 mr-2" />
+                  Eventos
                 </Link>
               </div>
             </div>

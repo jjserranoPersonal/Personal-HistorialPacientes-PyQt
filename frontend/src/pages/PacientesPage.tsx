@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Search, Plus, Edit, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Plus, Edit, Trash2, Eye } from 'lucide-react';
 import { pacientesApi } from '@/services/api';
 import Modal from '@/components/Modal';
 import PacienteForm from '@/components/PacienteForm';
@@ -14,6 +15,7 @@ export default function PacientesPage() {
   const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: pacientes, isLoading, error } = useQuery({
     queryKey: ['pacientes', searchTerm],
@@ -162,6 +164,13 @@ export default function PacientesPage() {
                           </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <div className="flex justify-end space-x-2">
+                              <button
+                                onClick={() => navigate(`/pacientes/${paciente.id}`)}
+                                className="text-blue-600 hover:text-blue-900"
+                                title="Ver detalle"
+                              >
+                                <Eye className="h-4 w-4" />
+                              </button>
                               <button
                                 onClick={() => handleEditClick(paciente)}
                                 className="text-indigo-600 hover:text-indigo-900"
