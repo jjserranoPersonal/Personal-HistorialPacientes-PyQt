@@ -1,0 +1,13 @@
+Arquitectura del Sistema
+
++-------------------+     +-------------------+     +-------------------+
+|   Interfaz PyQt   | --> |  Lógica Python    | --> |   Base de Datos   |
+|                   |     |                   |     |                   |
+| - MainWindow_Login|     | - validaciones.py |     | - paciente        |
+| - MainWindow_Princ|     | - PDF_Historia    |     | - historial       |
+| - UI files        |     | - database/       |     | - usuarios        |
++-------------------+     +-------------------+     +-------------------+
+         ^                         ^                         |
+         |                         |                         |
+         +-------------------------+-------------------------+
+                              Usuario
